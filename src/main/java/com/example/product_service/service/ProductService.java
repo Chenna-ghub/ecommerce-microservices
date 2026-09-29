@@ -3,10 +3,14 @@ package com.example.product_service.service;
 import com.example.product_service.dto.ProductRequest;
 import com.example.product_service.dto.ProductResponse;
 import com.example.product_service.entity.Product;
+import com.example.product_service.enums.ProductStatus;
 import com.example.product_service.exception.ProductNotFoundException;
 import com.example.product_service.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -76,6 +80,43 @@ public class ProductService {
                         )
                 );
         productRepository.deleteById(id);
+    }
+
+    public Page<ProductResponse> getAllProductsDetails(Pageable pageable){
+
+        Page<Product> products = productRepository.findAll(pageable);
+
+        return products.map(this::mapToResponse);
+    }
+
+    public Page<ProductResponse> getProductByCategory(Long categoryId, Pageable pageable){
+
+        Page<Product> products = productRepository.findByCategoryId(categoryId, pageable);
+
+        return products.map(this::mapToResponse);
+    }
+
+    public Page<ProductResponse> getProductsBuStatus(ProductStatus status, Pageable pageable){
+
+        Page<Product> products = productRepository.findByStatus(status, pageable);
+
+        return products.map(this::mapToResponse);
+    }
+
+    public Page<ProductResponse> getProductsByPrice(
+            BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable){
+
+        Page<Product> products = productRepository.findByPriceBetween(minPrice,maxPrice,pageable);
+
+        return products.map(this::mapToResponse);
+    }
+
+    public Page<ProductResponse> getProductsByName(
+            String name, Pageable pageable){
+
+        Page<Product> products = productRepository.findByNameContainingIgnoreCase(name, pageable);
+
+        return products.map(this::mapToResponse);
     }
 
     private ProductResponse mapToResponse(Product product) {

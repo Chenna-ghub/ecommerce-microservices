@@ -24,7 +24,7 @@ public class Product {
     private BigDecimal price;
 
     @Column(nullable = false)
-    private Long CategoryId;
+    private Long categoryId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -80,11 +80,11 @@ public class Product {
     }
 
     public Long getCategoryId() {
-        return CategoryId;
+        return categoryId;
     }
 
     public void setCategoryId(Long categoryId) {
-        CategoryId = categoryId;
+        this.categoryId = categoryId;
     }
 
     public ProductStatus getStatus() {
