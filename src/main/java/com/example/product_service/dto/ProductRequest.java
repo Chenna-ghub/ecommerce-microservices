@@ -66,7 +66,7 @@ public class ProductRequest {
     }
 
     public void setCategoryId(Long categoryId) {
-        categoryId = categoryId;
+        this.categoryId = categoryId;
     }
 
     public ProductStatus getStatus() {
